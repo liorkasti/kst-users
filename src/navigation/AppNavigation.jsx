@@ -12,7 +12,7 @@ import {
 import 'react-native-gesture-handler';
 
 import plus from '../assets/plus.png';
-import UserForm from '../components/UserForm';
+import UserFormModal from '../components/UserForm';
 import UserScreen from '../screens/UserScreen';
 import EditScreen from '../screens/EditScreen';
 import BottomModal from '../components/BottomModal';
@@ -50,7 +50,7 @@ const AppNavigation = ({navigation}) => {
       />
       <Tab.Screen
         name={'UserForm'}
-        component={UserForm}
+        component={UserFormModal}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
@@ -80,8 +80,8 @@ const AppNavigation = ({navigation}) => {
               <BottomModal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(!isModalOpen)}
-                modalsize={60}>
-                <UserForm onClose={handleCloseModal} />
+                modalSize={60}>
+                <UserFormModal onClose={handleCloseModal} />
               </BottomModal>
             </View>
           ),

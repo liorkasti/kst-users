@@ -1,53 +1,40 @@
 import React from 'react';
-import {
-  Image,
-  Modal,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {Image, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 
 import close from '../assets/close.png';
-import Button from './Button';
 
 type BottomModalProps = {
   visible?: boolean;
   onClose: () => void;
   children?: any;
-  size: number;
 };
 
 const BottomModal: React.FC<BottomModalProps> = ({
   children,
   onClose,
   visible,
-  modalsize,
 }) => (
   <Modal
     visible={visible}
     onRequestClose={onClose}
-    animationType="slide"
+    animationType="fade"
     transparent={true}
     statusBarTranslucent={true}>
     <TouchableOpacity
       activeOpacity={1}
-      style={[
-        styles.container,
-        {paddingTop: modalsize + StatusBar.currentHeight},
-      ]}
+      style={[styles.container]}
       onPress={onClose}>
       <TouchableOpacity style={styles.modalContent}>
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Image
             source={close}
             style={{
-              width: 13.5,
-              height: 13.5,
+              width: 16,
+              height: 16,
             }}
           />
         </TouchableOpacity>
         {children}
-        {/* <Button onPress={onButtonPress} text="Create" /> */}
       </TouchableOpacity>
     </TouchableOpacity>
   </Modal>
@@ -58,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
-
+    paddingTop: 120,
     height: '100%',
     width: '100%',
   },

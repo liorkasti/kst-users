@@ -1,37 +1,31 @@
-export interface UserState {
-  username: string;
+import {ImageSourcePropType} from 'react-native/types';
+
+export interface User {
+  name: UserName;
+  email: string;
+  picture: UserPicture | undefined;
+  location: UserLocation;
 }
-export interface Expense {
-  id: string;
+export interface UserName {
   title: string;
-  amount: number;
-  date: string;
+  first: string;
+  last: string;
+}
+export interface UserLocation {
+  country: string;
+  city: string;
+  street: UserStreet;
+}
+export interface UserStreet {
+  name: string;
+  number: number;
+}
+export interface UserPicture {
+  medium: ImageSourcePropType;
 }
 
-export interface ExpenseState {
-  expenses: Expense[];
+export interface UsersState {
+  data: User[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
 }
-export interface ExpenseSection {
-  title: string;
-  data: Expense[];
-}
-
-export interface Filters {
-  title: string;
-  date: Date | null;
-}
-
-export const ADD_EXPENSE = 'ADD_EXPENSE';
-export const DELETE_EXPENSE = 'DELETE_EXPENSE';
-
-interface AddExpenseAction {
-  type: typeof ADD_EXPENSE;
-  payload: Expense;
-}
-
-interface DeleteExpenseAction {
-  type: typeof DELETE_EXPENSE;
-  payload: string; // the ID of the expense to be deleted
-}
-
-export type ExpenseActionTypes = AddExpenseAction | DeleteExpenseAction;
