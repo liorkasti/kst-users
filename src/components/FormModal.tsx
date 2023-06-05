@@ -3,17 +3,13 @@ import {Image, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 
 import close from '../assets/close.png';
 
-type BottomModalProps = {
+type FormModalProps = {
   visible?: boolean;
   onClose: () => void;
   children?: any;
 };
 
-const BottomModal: React.FC<BottomModalProps> = ({
-  children,
-  onClose,
-  visible,
-}) => (
+const FormModal: React.FC<FormModalProps> = ({children, onClose, visible}) => (
   <Modal
     visible={visible}
     onRequestClose={onClose}
@@ -45,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
-    paddingTop: 120,
+    paddingTop: 60,
     height: '100%',
     width: '100%',
   },
@@ -71,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomModal;
+export default FormModal;

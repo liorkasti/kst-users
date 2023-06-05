@@ -3,7 +3,7 @@ import {ImageSourcePropType} from 'react-native/types';
 export interface User {
   name: UserName;
   email: string;
-  picture: UserPicture | undefined;
+  picture: UserPicture;
   location: UserLocation;
 }
 export interface UserName {
@@ -21,7 +21,7 @@ export interface UserStreet {
   number: number;
 }
 export interface UserPicture {
-  medium: ImageSourcePropType;
+  medium: string;
 }
 
 export interface UsersState {

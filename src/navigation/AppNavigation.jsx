@@ -15,7 +15,7 @@ import plus from '../assets/plus.png';
 import UserFormModal from '../components/UserForm';
 import UserScreen from '../screens/UserScreen';
 import EditScreen from '../screens/EditScreen';
-import BottomModal from '../components/BottomModal';
+import FormModal from '../components/FormModal';
 import {COLORS} from '../utils/constance';
 
 const Tab = createBottomTabNavigator();
@@ -77,12 +77,12 @@ const AppNavigation = ({navigation}) => {
                 </View>
               </TouchableOpacity>
 
-              <BottomModal
+              <FormModal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(!isModalOpen)}
                 modalSize={60}>
                 <UserFormModal onClose={handleCloseModal} />
-              </BottomModal>
+              </FormModal>
             </View>
           ),
         }}

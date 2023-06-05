@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import plus from '../assets/plus.png';
-import BottomModal from '../components/BottomModal';
+import FormModal from '../components/FormModal';
 import UserForm from '../components/UserForm';
 import UserList from '../components/UserList';
 import {COLORS} from '../utils/constance';
@@ -65,14 +65,14 @@ const UsersScreen = () => {
         </View>
       </TouchableOpacity>
       {isAddModalOpen && (
-        <BottomModal visible={isAddModalOpen} onClose={handleCloseModal}>
+        <FormModal visible={isAddModalOpen} onClose={handleCloseModal}>
           <UserForm
             title={'Create Profile'}
             userData={undefined}
             onSubmit={onAddUser}
             isEditMode={false}
           />
-        </BottomModal>
+        </FormModal>
       )}
     </>
   );

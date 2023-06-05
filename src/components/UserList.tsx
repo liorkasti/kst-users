@@ -18,7 +18,7 @@ import {
   removeUser,
 } from '../redux/slices/users-slice';
 import {RootState} from '../redux/store'; // Assuming you have a separate store configuration file
-import BottomModal from './BottomModal';
+import FormModal from './FormModal';
 import UserForm from './UserForm';
 import {User} from '../redux/types';
 
@@ -159,7 +159,7 @@ const UserList: React.FC = () => {
         renderItem={renderUserItem}
       />
       {isEditModalOpen && (
-        <BottomModal
+        <FormModal
           visible={isEditModalOpen}
           onClose={() => setIsEditModalOpen(!isEditModalOpen)}>
           <UserForm
@@ -168,7 +168,7 @@ const UserList: React.FC = () => {
             onSubmit={onEditUser}
             isEditMode={true}
           />
-        </BottomModal>
+        </FormModal>
       )}
     </>
   );

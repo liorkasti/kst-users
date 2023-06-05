@@ -48,21 +48,22 @@ const UserForm: React.FC<UserFormProps> = ({
       number: 0,
     },
   });
-  const [picture, setPicture] = useState<UserPicture | undefined>(undefined);
+  const [picture, setPicture] = useState<UserPicture>({medium: ''});
+
   const [imageSource, setImageSource] = useState('');
   const {data: users} = useSelector((state: RootState) => state.users);
 
   const handleSubmit = () => {
+    console.log('picture', picture);
     // Perform validation
     if (
-      // !name.title ||
+      !name.title ||
       !name.first ||
       !name.last ||
       !email ||
       !location.country ||
       !location.city ||
       !location.street.name
-      // || !location.street.number
       // || !picture
     ) {
       Alert.alert('Validation Error', 'Please fill in all fields.');
@@ -77,10 +78,10 @@ const UserForm: React.FC<UserFormProps> = ({
       return;
     }
 
-    // if (!validateEmail(email)) {
-    //   Alert.alert('Validation Error', 'Please enter a valid email address.');
-    //   return;
-    // }
+    if (!validateEmail(email)) {
+      Alert.alert('Validation Error', 'Please enter a valid email address.');
+      return;
+    }
 
     if (!isEmailUnique(users, email)) {
       Alert.alert('Validation Error', 'This email already exists.');
@@ -107,8 +108,8 @@ const UserForm: React.FC<UserFormProps> = ({
       (response: ImagePickerResponse) => {
         if (!response.didCancel && !response.error) {
           setImageSource(response.uri);
-          setPicture({medium: response.uri});
-          // console.log(response);
+          setPicture(prevState => ({...prevState, medium: response.uri}));
+          console.log(response);
         }
       },
     );
