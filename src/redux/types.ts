@@ -1,3 +1,8 @@
+export interface FilteredData {
+  login: UserId;
+  name: UserName;
+  email: string;
+}
 export interface User {
   login: UserId;
   name: UserName;
@@ -28,6 +33,7 @@ export interface UserPicture {
 
 export interface UsersState {
   data: User[];
+  filteredData: [];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }

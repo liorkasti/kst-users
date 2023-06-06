@@ -14,7 +14,7 @@
 //     // Add the user to the state
 //     dispatch(addUser(newUser));
 //   } catch (error) {
-//     console.log('Error saving expense:', error);
+//     console.log('Error saving user:', error);
 //   }
 // };
 
@@ -30,6 +30,6 @@
 //     // Update the user in state
 //     dispatch(editUser({id: selectedUser.email, user}));
 //   } catch (error) {
-//     console.log('Error saving expense:', error);
+//     console.log('Error saving user:', error);
 //   }
 // };

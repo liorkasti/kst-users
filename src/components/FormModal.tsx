@@ -1,7 +1,14 @@
 import React from 'react';
-import {Image, Modal, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  Modal,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
-import close from '../assets/close.png';
+import closeIcon from '../assets/close.png';
 
 type FormModalProps = {
   visible?: boolean;
@@ -17,21 +24,16 @@ const FormModal: React.FC<FormModalProps> = ({children, onClose, visible}) => (
     transparent={true}
     statusBarTranslucent={true}>
     <TouchableOpacity
+      // disabled={true}
       activeOpacity={1}
       style={[styles.container]}
       onPress={onClose}>
-      <TouchableOpacity style={styles.modalContent}>
+      <View style={styles.modalContent}>
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-          <Image
-            source={close}
-            style={{
-              width: 16,
-              height: 16,
-            }}
-          />
+          <Image source={closeIcon} style={styles.image} />
         </TouchableOpacity>
         {children}
-      </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   </Modal>
 );
@@ -41,15 +43,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
-    paddingTop: 60,
+    paddingTop: Platform.OS === 'ios' ? 170 : 200,
     height: '100%',
     width: '100%',
   },
   modalContent: {
     backgroundColor: '#fff',
-    borderRadius: 22,
-    paddingHorizontal: 32,
-    paddingTop: 50,
+    borderTopEndRadius: 22,
+    borderTopStartRadius: 22,
+    paddingHorizontal: 24,
+    paddingTop: 40,
     paddingBottom: 20,
     borderWidth: 1,
     borderColor: '#A6A6A6',
@@ -58,12 +61,16 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 23.25,
-    right: 25.25,
+    top: 24,
+    right: 24,
   },
   closeButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  image: {
+    width: 24,
+    height: 24,
   },
 });
 

@@ -2,9 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import axios, {AxiosResponse} from 'axios';
 import {User, UsersState} from '../types';
+import {RootState} from '../store';
 
 const initialState: UsersState = {
   data: [],
+  filteredData: [],
   status: 'idle',
   error: null,
 };
@@ -52,6 +54,17 @@ const usersSlice = createSlice({
       console.log('userId', userId);
       state.data = state.data.filter(user => user.email !== userId);
     },
+    filterUsers: (state, action: PayloadAction<string>) => {
+      const searchQuery = action.payload.trim().toLowerCase();
+      console.log({searchQuery});
+      // state.filteredData = state.data.filter(
+      //   user =>
+      //     user.email.toLowerCase().includes(searchQuery) ||
+      //     user.name.toLowerCase().includes(searchQuery) ||
+      //     user.id.toLowerCase().includes(searchQuery) ||
+      //     user.location.toLowerCase().includes(searchQuery),
+      // );
+    },
   },
   extraReducers: builder => {
     builder
@@ -70,6 +83,8 @@ const usersSlice = createSlice({
   },
 });
 
-export const {addUser, editUser, removeUser} = usersSlice.actions;
+export const {addUser, editUser, removeUser, filterUsers} = usersSlice.actions;
+// export const selectFilteredUsers = (_state: RootState) =>
+//   _state.data.filteredData;
 
 export default usersSlice.reducer;

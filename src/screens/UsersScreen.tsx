@@ -6,30 +6,26 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 
-import plus from '../assets/plus.png';
+import filterIcon from '../assets/filter.png';
+import plusIcon from '../assets/plus.png';
 import FormModal from '../components/FormModal';
 import UserForm from '../components/UserForm';
 import UserList from '../components/UserList';
 import {COLORS} from '../utils/constance';
-import {User} from '../redux/types';
+import {FilteredData, User} from '../redux/types';
 import {addUser} from '../redux/slices/users-slice';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserFilter from '../components/UserFilter';
 
 const UsersScreen = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const dispatch = useDispatch();
-
-  const handleOpenModal = () => {
-    setIsAddModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsAddModalOpen(false);
-  };
 
   const onAddUser = async (newUser: User) => {
     try {
@@ -40,9 +36,19 @@ const UsersScreen = () => {
       await AsyncStorage.setItem('users', JSON.stringify(localUsers));
       // Add the user to the state
       dispatch(addUser(newUser));
-      handleCloseModal();
+      setIsAddModalOpen(false);
     } catch (error) {
-      console.log('Error saving expense:', error);
+      console.log('Error saving user:', error);
+    }
+  };
+
+  const onFilter = async (filteredData: FilteredData) => {
+    try {
+      dispatch(filterUsers(filteredData));
+
+      setIsFilterModalOpen(false);
+    } catch (error) {
+      console.log('Error saving user:', error);
     }
   };
 
@@ -52,20 +58,27 @@ const UsersScreen = () => {
         <Text style={styles.title}>Users</Text>
         <UserList />
       </View>
-      <TouchableOpacity onPress={handleOpenModal}>
-        <View style={styles.pluse}>
-          <Image
-            source={plus}
-            style={{
-              width: 36,
-              height: 36,
-              tintColor: 'white',
-            }}
-          />
+      <TouchableOpacity onPress={() => setIsFilterModalOpen(prev => !prev)}>
+        <View style={[styles.icon, styles.secondIcon]}>
+          <Image source={filterIcon} style={styles.modalButton} />
+        </View>
+      </TouchableOpacity>
+      {isFilterModalOpen && (
+        <FormModal
+          visible={isFilterModalOpen}
+          onClose={() => setIsFilterModalOpen(prev => !prev)}>
+          <UserFilter title={'Filter'} onSubmit={onFilter} />
+        </FormModal>
+      )}
+      <TouchableOpacity onPress={() => setIsAddModalOpen(prev => !prev)}>
+        <View style={styles.icon}>
+          <Image source={plusIcon} style={styles.modalButton} />
         </View>
       </TouchableOpacity>
       {isAddModalOpen && (
-        <FormModal visible={isAddModalOpen} onClose={handleCloseModal}>
+        <FormModal
+          visible={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(prev => !prev)}>
           <UserForm
             title={'Create Profile'}
             userData={undefined}
@@ -85,12 +98,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 60 - StatusBar?.currentHeight,
+    marginTop: Platform.OS === 'ios' ? 60 : 24,
   },
   title: {
     color: 'red',
   },
-  pluse: {
+  modalButton: {
+    width: 36,
+    height: 36,
+    tintColor: 'white',
+  },
+  icon: {
     position: 'absolute',
     bottom: 24,
     right: 24,
@@ -100,5 +118,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  secondIcon: {
+    marginBottom: 65,
+    backgroundColor: COLORS.thirdary,
   },
 });

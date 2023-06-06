@@ -75,41 +75,9 @@ const UserList: React.FC = () => {
       dispatch(editUser({id: selectedUser.email, user}));
       handleCloseModal();
     } catch (error) {
-      console.log('Error saving expense:', error);
+      console.log('Error saving user:', error);
     }
   };
-
-  // const onSubmit = async () => {
-  //   try {
-  //     if (name && email && location) {
-  //       const newUser: User = {
-  //         name: name,
-  //         email: email,
-  //         picture: {picture: {medium: imageSource}},
-  //         location: location,
-  //       };
-
-  //       if (isEdit) {
-  //         const newUser: User = {
-  //           name: name,
-  //           email: email,
-  //           picture: {picture: {medium: imageSource}},
-  //           location: location,
-  //         };
-  //         dispatch(editUser({id: userData.email, user: newUser}));
-  //       } else {
-  //         const savedUsers = await AsyncStorage.getItem('users');
-  //         let localUsers = savedUsers ? JSON.parse(savedUsers) : [];
-  //         localUsers.push(newUser);
-  //         await AsyncStorage.setItem('users', JSON.stringify(localUsers));
-  //         dispatch(addUser(newUser));
-  //       }
-  //       onClose();
-  //     }
-  //   } catch (error) {
-  //     console.log('Error saving expense:', error);
-  //   }
-  // };
 
   const renderUserItem = ({item}: {item: User}) => {
     return (

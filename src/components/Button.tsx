@@ -19,14 +19,11 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    position: 'absolute',
+    width: '34%',
     backgroundColor: COLORS.thirdary,
-    left: '32%',
-    right: '32%',
     paddingHorizontal: 5,
     paddingVertical: 15,
     borderRadius: 50,
-    bottom: 61,
   },
   buttonText: {
     color: 'white',
