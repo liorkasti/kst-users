@@ -3,6 +3,7 @@ import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import axios, {AxiosResponse} from 'axios';
 import {User, UsersState} from '../types';
 import {RootState} from '../store';
+import {Alert} from 'react-native';
 
 const initialState: UsersState = {
   data: [],
@@ -55,15 +56,30 @@ const usersSlice = createSlice({
       state.data = state.data.filter(user => user.email !== userId);
     },
     filterUsers: (state, action: PayloadAction<string>) => {
-      const searchQuery = action.payload.trim().toLowerCase();
-      console.log({searchQuery});
-      // state.filteredData = state.data.filter(
-      //   user =>
-      //     user.email.toLowerCase().includes(searchQuery) ||
-      //     user.name.toLowerCase().includes(searchQuery) ||
-      //     user.id.toLowerCase().includes(searchQuery) ||
-      //     user.location.toLowerCase().includes(searchQuery),
-      // );
+      try {
+        const searchEmail = action.payload?.email.trim().toLowerCase();
+        const searchFirstName = action.payload?.name?.first.toLowerCase();
+        const searchLastName = action.payload?.name?.last.toLowerCase();
+        const searchCountry = action.payload?.location?.country.toLowerCase();
+        const searchCity = action.payload?.location?.city.toLowerCase();
+        const searchId = action.payload?.location?.city.toLowerCase();
+
+        state.filteredData = state.data.filter(user => {
+          user.email.toLowerCase().includes(searchEmail); //||
+          // user => user.name.first.toLowerCase().includes(searchFirstName), //||
+          // user.name.last.toLowerCase().includes(searchLastName) ||
+          // user.location.country.toLowerCase().includes(searchCountry) ||
+          // user.location.city.toLowerCase().includes(searchCity), //||
+          // user.email.toLowerCase().includes(searchId),
+        });
+        console.log('temp', state.filteredData);
+        if (state.filteredData.length < 1) {
+          Alert.alert('Sorry!', 'No result.');
+        }
+        return;
+      } catch (e) {
+        console.log('e', e);
+      }
     },
   },
   extraReducers: builder => {

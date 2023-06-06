@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TextInput, View, ScrollView} from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import {RootState} from '../redux/store';
@@ -20,6 +20,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     last: '',
   });
   const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [location, setLocation] = useState<UserLocation>({
     country: '',
     city: '',
@@ -33,10 +34,12 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
 
   const handleSubmit = () => {
     // Create the user object to filter the users
-    const filteredData: FilteredData = {
+    const filteredData: User = {
       login: {uuid: email},
       name,
       email,
+      location: location,
+      picture: undefined,
     };
     console.log({filteredData});
     // Call the onSubmit callback with the user object
@@ -58,16 +61,16 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
       <View style={styles.container}>
         <Text style={styles.modalTitle}>{title}</Text>
         <Text style={styles.sectionTitle}>{nameTitle}</Text>
+        <TextInput
+          style={[styles.input, styles.id]}
+          placeholder={'ID'}
+          placeholderTextColor={COLORS.placeholder}
+          value={id}
+          onChangeText={text =>
+            setId(prevState => ({...prevState, title: text}))
+          }
+        />
         <View style={styles.sectionRow}>
-          <TextInput
-            style={[styles.input, styles.nameTitle]}
-            placeholder={titlePL}
-            placeholderTextColor={COLORS.placeholder}
-            value={name.title}
-            onChangeText={text =>
-              setName(prevState => ({...prevState, title: text}))
-            }
-          />
           <TextInput
             style={[styles.input, styles.firstName]}
             placeholder={firstPL}
@@ -77,16 +80,16 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
               setName(prevState => ({...prevState, first: text}))
             }
           />
+          <TextInput
+            style={[styles.input, styles.lastName]}
+            placeholder={lastPL}
+            placeholderTextColor={COLORS.placeholder}
+            value={name.last}
+            onChangeText={text =>
+              setName(prevState => ({...prevState, last: text}))
+            }
+          />
         </View>
-        <TextInput
-          style={[styles.input, styles.lastName]}
-          placeholder={lastPL}
-          placeholderTextColor={COLORS.placeholder}
-          value={name.last}
-          onChangeText={text =>
-            setName(prevState => ({...prevState, last: text}))
-          }
-        />
         <Text style={styles.sectionTitle}>{emailTitle}</Text>
         <TextInput
           style={styles.input}
@@ -119,7 +122,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <SaveButton onButtonPress={handleSubmit} text="Save" />
+        <SaveButton onButtonPress={handleSubmit} text="Search" />
       </View>
     </ScrollView>
   );
@@ -160,12 +163,12 @@ const styles = StyleSheet.create({
     color: COLORS.thirdary,
     fontWeight: '500',
   },
-  nameTitle: {
-    width: '27%',
-    marginRight: '3%',
+  id: {
+    width: '100%',
   },
   firstName: {
-    width: '70%',
+    width: '47%',
+    marginRight: '3%',
   },
   lastName: {},
   country: {
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     alignItems: 'center',
-    paddingBottom: 20,
+    paddingVertical: 20,
   },
 });
 

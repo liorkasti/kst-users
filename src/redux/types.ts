@@ -1,13 +1,8 @@
-export interface FilteredData {
-  login: UserId;
-  name: UserName;
-  email: string;
-}
 export interface User {
   login: UserId;
   name: UserName;
   email: string;
-  picture: UserPicture;
+  picture: UserPicture | undefined;
   location: UserLocation;
 }
 export interface UserId {

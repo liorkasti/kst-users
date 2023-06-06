@@ -17,7 +17,7 @@ import UserFilter from '../components/UserFilter';
 import UserForm from '../components/UserForm';
 import UserList from '../components/UserList';
 import {addUser, filterUsers} from '../redux/slices/users-slice';
-import {FilteredData, User} from '../redux/types';
+import {User} from '../redux/types';
 import {COLORS} from '../utils/constance';
 
 const UsersScreen = () => {
@@ -41,7 +41,7 @@ const UsersScreen = () => {
     }
   };
 
-  const onFilter = async (filteredData: FilteredData) => {
+  const onFilter = async (filteredData: any) => {
     try {
       dispatch(filterUsers(filteredData));
 

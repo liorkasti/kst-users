@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {Alert, FlatList, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {editUser, fetchUsers, removeUser} from '../redux/slices/users-slice';
 import {RootState} from '../redux/store'; // Assuming you have a separate store configuration file
@@ -24,6 +24,7 @@ const UserList: React.FC = () => {
   const dispatch = useDispatch();
   const {
     data: users,
+    filteredData,
     status,
     error,
   } = useSelector((state: RootState) => state.users);
@@ -47,8 +48,20 @@ const UserList: React.FC = () => {
   };
 
   const handleDelete = (userId: string) => {
-    //TODO: open a modal with confirm and cancel button.
-    dispatch(removeUser(userId));
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete this user?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Confirm',
+          onPress: () => dispatch(removeUser(userId)),
+        },
+      ],
+    );
   };
 
   const onEditUser = async (user: User) => {
@@ -96,7 +109,7 @@ const UserList: React.FC = () => {
   return (
     <>
       <FlatList
-        data={users}
+        data={filteredData.length > 0 ? filteredData : users}
         numColumns={2}
         keyExtractor={(item: User) => item.email}
         renderItem={renderUserItem}
