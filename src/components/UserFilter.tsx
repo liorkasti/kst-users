@@ -43,16 +43,25 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     onSubmit(filteredData);
   };
 
+  const titlePL = 'Title';
+  const firstPL = 'First Name';
+  const lastPL = 'Last Nmae';
+  const emailPL = 'Email';
+  const countryPL = 'Country';
+  const cityPL = 'City';
+  const nameTitle = 'Name:';
+  const emailTitle = 'Email:';
+  const locationTitle = 'Location:';
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.modalTitle}>{title}</Text>
-        {/* TODO: custom TextInput */}
-        <Text style={styles.sectionTitle}>Name:</Text>
+        <Text style={styles.sectionTitle}>{nameTitle}</Text>
         <View style={styles.sectionRow}>
           <TextInput
             style={[styles.input, styles.nameTitle]}
-            placeholder={'Title'}
+            placeholder={titlePL}
             placeholderTextColor={COLORS.placeholder}
             value={name.title}
             onChangeText={text =>
@@ -61,37 +70,37 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
           />
           <TextInput
             style={[styles.input, styles.firstName]}
-            placeholder={'First Name'}
+            placeholder={firstPL}
             placeholderTextColor={COLORS.placeholder}
             value={name.first}
             onChangeText={text =>
               setName(prevState => ({...prevState, first: text}))
             }
           />
-          <TextInput
-            style={[styles.input, styles.lastName]}
-            placeholder={'Last Name'}
-            placeholderTextColor={COLORS.placeholder}
-            value={name.last}
-            onChangeText={text =>
-              setName(prevState => ({...prevState, last: text}))
-            }
-          />
         </View>
-        <Text style={styles.sectionTitle}>Email:</Text>
+        <TextInput
+          style={[styles.input, styles.lastName]}
+          placeholder={lastPL}
+          placeholderTextColor={COLORS.placeholder}
+          value={name.last}
+          onChangeText={text =>
+            setName(prevState => ({...prevState, last: text}))
+          }
+        />
+        <Text style={styles.sectionTitle}>{emailTitle}</Text>
         <TextInput
           style={styles.input}
-          placeholder={'Email'}
+          placeholder={emailPL}
           placeholderTextColor={COLORS.placeholder}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
         />
-        <Text style={styles.sectionTitle}>Location:</Text>
+        <Text style={styles.sectionTitle}>{locationTitle}</Text>
         <View style={styles.sectionRow}>
           <TextInput
             style={[styles.input, styles.country]}
-            placeholder={'Country'}
+            placeholder={countryPL}
             placeholderTextColor={COLORS.placeholder}
             value={location.country}
             onChangeText={text =>
@@ -100,7 +109,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
           />
           <TextInput
             style={[styles.input, styles.city]}
-            placeholder={'City'}
+            placeholder={cityPL}
             placeholderTextColor={COLORS.placeholder}
             value={location.city}
             onChangeText={text =>
@@ -108,21 +117,9 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
             }
           />
         </View>
-        <TextInput
-          style={[styles.input, styles.street]}
-          placeholder={'Street Name'}
-          placeholderTextColor={COLORS.placeholder}
-          value={location.street.name}
-          onChangeText={text =>
-            setLocation(prevState => ({
-              ...prevState,
-              street: {...prevState.street, name: text},
-            }))
-          }
-        />
-        <View style={styles.bottomContainer}>
-          <SaveButton onButtonPress={handleSubmit} text="Save" />
-        </View>
+      </View>
+      <View style={styles.bottomContainer}>
+        <SaveButton onButtonPress={handleSubmit} text="Save" />
       </View>
     </ScrollView>
   );
@@ -133,27 +130,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionRow: {
-    marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
     height: 62,
   },
-  bottomContainer: {
-    alignItems: 'center',
-    paddingBottom: 20,
-  },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: '700',
     marginBottom: 20,
     textAlign: 'center',
+    color: COLORS.submit,
   },
   sectionTitle: {
+    marginTop: 20,
     fontSize: 12,
     fontWeight: '400',
-    alignItems: 'flex-start',
     textAlign: 'left',
+    color: COLORS.modalTitle,
   },
   input: {
     width: '100%',
@@ -161,8 +155,10 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gray,
     borderRadius: 4,
     padding: 10,
-    marginBottom: 50,
+    marginBottom: 10,
     justifyContent: 'space-around',
+    color: COLORS.thirdary,
+    fontWeight: '500',
   },
   nameTitle: {
     width: '27%',
@@ -171,7 +167,7 @@ const styles = StyleSheet.create({
   firstName: {
     width: '70%',
   },
-  lastName: {marginTop: -40},
+  lastName: {},
   country: {
     width: '47%',
     marginRight: '3%',
@@ -179,9 +175,9 @@ const styles = StyleSheet.create({
   city: {
     width: '50%',
   },
-  street: {
-    width: '100%',
-    marginTop: -40,
+  bottomContainer: {
+    alignItems: 'center',
+    paddingBottom: 20,
   },
 });
 

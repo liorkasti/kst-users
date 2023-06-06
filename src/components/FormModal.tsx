@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import closeIcon from '../assets/close.png';
+import {COLORS} from '../utils/constance';
 
 type FormModalProps = {
   visible?: boolean;
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bkg,
     borderTopEndRadius: 22,
     borderTopStartRadius: 22,
     paddingHorizontal: 24,

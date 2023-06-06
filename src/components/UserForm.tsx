@@ -118,16 +118,26 @@ const UserForm: React.FC<UserFormProps> = ({
     );
   };
 
+  const titlePL = userData?.name?.title || 'Title';
+  const firstPL = userData?.name?.first || 'First Name';
+  const lastPL = userData?.name?.last || 'Last Nmae';
+  const emailPL = userData?.email || 'Email';
+  const countryPL = userData?.location?.country || 'Country';
+  const cityPL = userData?.location?.city || 'City';
+  const streetPL = userData?.location?.street || 'Street Name';
+  const nameTitle = 'Name:';
+  const emailTitle = 'Email:';
+  const locationTitle = 'Location:';
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.modalTitle}>{title}</Text>
-        {/* TODO: custom TextInput */}
-        <Text style={styles.sectionTitle}>Name:</Text>
+        <Text style={styles.sectionTitle}>{nameTitle}</Text>
         <View style={styles.sectionRow}>
           <TextInput
             style={[styles.input, styles.nameTitle]}
-            placeholder={userData?.name?.title || 'Title'}
+            placeholder={titlePL}
             placeholderTextColor={COLORS.placeholder}
             value={name.title}
             onChangeText={text =>
@@ -136,7 +146,7 @@ const UserForm: React.FC<UserFormProps> = ({
           />
           <TextInput
             style={[styles.input, styles.firstName]}
-            placeholder={userData?.name?.first || 'First Name'}
+            placeholder={firstPL}
             placeholderTextColor={COLORS.placeholder}
             value={name.first}
             onChangeText={text =>
@@ -146,27 +156,27 @@ const UserForm: React.FC<UserFormProps> = ({
         </View>
         <TextInput
           style={[styles.input, styles.lastName]}
-          placeholder={userData?.name?.last || 'Last Name'}
+          placeholder={lastPL}
           placeholderTextColor={COLORS.placeholder}
           value={name.last}
           onChangeText={text =>
             setName(prevState => ({...prevState, last: text}))
           }
         />
-        <Text style={styles.sectionTitle}>Email:</Text>
+        <Text style={styles.sectionTitle}>{emailTitle}</Text>
         <TextInput
           style={styles.input}
-          placeholder={userData?.email || 'Email'}
+          placeholder={emailPL}
           placeholderTextColor={COLORS.placeholder}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
         />
-        <Text style={styles.sectionTitle}>Location:</Text>
+        <Text style={styles.sectionTitle}>{locationTitle}</Text>
         <View style={styles.sectionRow}>
           <TextInput
             style={[styles.input, styles.country]}
-            placeholder={userData?.location?.country || 'Country'}
+            placeholder={countryPL}
             placeholderTextColor={COLORS.placeholder}
             value={location.country}
             onChangeText={text =>
@@ -175,7 +185,7 @@ const UserForm: React.FC<UserFormProps> = ({
           />
           <TextInput
             style={[styles.input, styles.city]}
-            placeholder={isEditMode ? userData?.location?.city : 'City'}
+            placeholder={cityPL}
             placeholderTextColor={COLORS.placeholder}
             value={location.city}
             onChangeText={text =>
@@ -183,9 +193,9 @@ const UserForm: React.FC<UserFormProps> = ({
             }
           />
         </View>
-        <TextInput
+        {/* <TextInput
           style={[styles.input, styles.street]}
-          placeholder={userData?.location?.street?.name || 'Street Name'}
+          placeholder={streetPL}
           placeholderTextColor={COLORS.placeholder}
           value={location.street.name}
           onChangeText={text =>
@@ -194,10 +204,17 @@ const UserForm: React.FC<UserFormProps> = ({
               street: {...prevState.street, name: text},
             }))
           }
-        />
+        /> */}
         <View style={styles.imageContainer}>
           {picture.medium ? (
-            <Image source={{uri: picture.medium}} style={styles.userImage} />
+            <>
+              <Image source={{uri: picture.medium}} style={styles.userImage} />
+              <TouchableOpacity
+                onPress={handleImagePick}
+                style={styles.editWrapper}>
+                <Image source={editIcon} style={styles.editIcon} />
+              </TouchableOpacity>
+            </>
           ) : isEditMode ? (
             <>
               <Image
@@ -214,7 +231,7 @@ const UserForm: React.FC<UserFormProps> = ({
             <TouchableOpacity
               onPress={handleImagePick}
               style={styles.imagePicker}>
-              <Text style={styles.sectionTitle}>Pick Image</Text>
+              <Text style={styles.pickerTitle}>Pick Image</Text>
               <Image source={uploadIcon} style={styles.uploadIcon} />
             </TouchableOpacity>
           )}
@@ -232,7 +249,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionRow: {
-    marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -246,9 +262,9 @@ const styles = StyleSheet.create({
     color: COLORS.submit,
   },
   sectionTitle: {
+    marginTop: 20,
     fontSize: 12,
     fontWeight: '400',
-    alignItems: 'flex-start',
     textAlign: 'left',
     color: COLORS.submit,
   },
@@ -256,11 +272,12 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomWidth: 1,
     borderColor: COLORS.gray,
-    color: COLORS.modalTitle,
     borderRadius: 4,
     padding: 10,
-    marginBottom: 50,
+    marginBottom: 10,
     justifyContent: 'space-around',
+    color: COLORS.thirdary,
+    fontWeight: '500',
   },
   nameTitle: {
     width: '27%',
@@ -269,7 +286,7 @@ const styles = StyleSheet.create({
   firstName: {
     width: '70%',
   },
-  lastName: {marginTop: -40},
+  lastName: {},
   country: {
     width: '47%',
     marginRight: '3%',
@@ -277,12 +294,10 @@ const styles = StyleSheet.create({
   city: {
     width: '50%',
   },
-  street: {
-    width: '100%',
-    marginTop: -40,
-  },
+  street: {},
   imageContainer: {
     alignItems: 'center',
+    paddingTop: 20,
   },
   bottomContainer: {
     alignItems: 'center',
@@ -295,16 +310,23 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 20,
   },
-  editWrapper: {
-    alignItems: 'center',
-    top: -38,
-  },
   imagePicker: {
+    marginTop: 20,
     width: 100,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 20,
+  },
+  pickerTitle: {
+    fontSize: 12,
+    fontWeight: '400',
+    textAlign: 'left',
+    color: COLORS.submit,
+  },
+  editWrapper: {
+    alignItems: 'center',
+    top: -38,
   },
   uploadIcon: {
     paddingBottom: 5,
