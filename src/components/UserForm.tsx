@@ -18,7 +18,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {User, UserLocation, UserName, UserPicture} from '../redux/types';
 import {COLORS} from '../utils/constance';
-import {isEmailUnique} from '../utils/validations';
+import {isEmailUnique, validateEmail} from '../utils/validations';
 import SaveButton from './Button';
 
 interface UserFormProps {
@@ -48,13 +48,12 @@ const UserForm: React.FC<UserFormProps> = ({
       number: 0,
     },
   });
+  // const [picture, setPicture] = useState<UserPicture>({medium: ''});
   const [picture, setPicture] = useState<UserPicture>({medium: ''});
 
-  const [imageSource, setImageSource] = useState('');
   const {data: users} = useSelector((state: RootState) => state.users);
 
   const handleSubmit = () => {
-    console.log('picture', picture);
     // Perform validation
     if (
       !name.title ||
@@ -90,6 +89,7 @@ const UserForm: React.FC<UserFormProps> = ({
 
     // Create the user object
     const user: User = {
+      login: {uuid: email},
       name,
       email,
       picture,
@@ -107,9 +107,10 @@ const UserForm: React.FC<UserFormProps> = ({
       },
       (response: ImagePickerResponse) => {
         if (!response.didCancel && !response.error) {
-          setImageSource(response.uri);
-          setPicture(prevState => ({...prevState, medium: response.uri}));
           console.log(response);
+          const selectedAsset = response?.assets[0];
+          setPicture(prevState => ({...prevState, medium: selectedAsset.uri}));
+          console.log({picture});
         }
       },
     );
@@ -185,15 +186,17 @@ const UserForm: React.FC<UserFormProps> = ({
             }))
           }
         />
-        {imageSource && (
-          <Image source={{uri: imageSource}} style={styles.userImage} />
+        {picture.medium ? (
+          <Image source={{uri: picture.medium}} style={styles.userImage} />
+        ) : (
+          isEditMode && (
+            <Image
+              source={{uri: userData?.picture?.medium}}
+              style={styles.userImage}
+            />
+          )
         )}
-        {isEditMode && (
-          <Image
-            source={{uri: userData?.picture?.medium}}
-            style={styles.userImage}
-          />
-        )}
+
         {/* TODO: add custom button */}
         <Button title="Pick Image" onPress={handleImagePick} />
         <SaveButton onButtonPress={handleSubmit} text="Save" />
