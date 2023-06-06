@@ -158,30 +158,30 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     borderBottomWidth: 1,
-    borderColor: COLORS.filter,
+    borderColor: COLORS.gray,
     borderRadius: 4,
     padding: 10,
     marginBottom: 50,
     justifyContent: 'space-around',
   },
   nameTitle: {
-    width: '10%',
+    width: '27%',
+    marginRight: '3%',
   },
   firstName: {
-    width: '38%',
-    paddingHorizontal: '1%',
+    width: '70%',
   },
-  lastName: {
-    width: '50%',
-  },
+  lastName: {marginTop: -40},
   country: {
-    width: '48%',
+    width: '47%',
+    marginRight: '3%',
   },
   city: {
-    width: '48%',
+    width: '50%',
   },
   street: {
     width: '100%',
+    marginTop: -40,
   },
 });
 

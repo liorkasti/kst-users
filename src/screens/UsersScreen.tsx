@@ -55,7 +55,7 @@ const UsersScreen = () => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Users</Text>
+        <Text style={styles.title}>Random Users</Text>
         <UserList />
       </View>
       <TouchableOpacity onPress={() => setIsFilterModalOpen(prev => !prev)}>
@@ -101,7 +101,9 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 60 : 24,
   },
   title: {
-    color: 'red',
+    color: COLORS.primary,
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   modalButton: {
     width: 36,
