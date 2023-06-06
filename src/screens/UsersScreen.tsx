@@ -1,25 +1,24 @@
 import React, {useState} from 'react';
 import {
   Image,
-  StatusBar,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Platform,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
 import filterIcon from '../assets/filter.png';
 import plusIcon from '../assets/plus.png';
 import FormModal from '../components/FormModal';
+import UserFilter from '../components/UserFilter';
 import UserForm from '../components/UserForm';
 import UserList from '../components/UserList';
-import {COLORS} from '../utils/constance';
+import {addUser, filterUsers} from '../redux/slices/users-slice';
 import {FilteredData, User} from '../redux/types';
-import {addUser} from '../redux/slices/users-slice';
-import {useDispatch} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserFilter from '../components/UserFilter';
+import {COLORS} from '../utils/constance';
 
 const UsersScreen = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -67,7 +66,11 @@ const UsersScreen = () => {
         <FormModal
           visible={isFilterModalOpen}
           onClose={() => setIsFilterModalOpen(prev => !prev)}>
-          <UserFilter title={'Filter'} onSubmit={onFilter} />
+          <UserFilter
+            title={'Filter'}
+            onSubmit={onFilter}
+            userData={undefined}
+          />
         </FormModal>
       )}
       <TouchableOpacity onPress={() => setIsAddModalOpen(prev => !prev)}>
@@ -98,12 +101,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: Platform.OS === 'ios' ? 60 : 24,
   },
   title: {
     color: COLORS.primary,
     fontSize: 24,
     fontWeight: 'bold',
+    marginTop: Platform.OS === 'ios' ? 60 : 24,
   },
   modalButton: {
     width: 36,
@@ -116,13 +119,13 @@ const styles = StyleSheet.create({
     right: 24,
     width: 55,
     height: 55,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.thirdary,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
   },
   secondIcon: {
     marginBottom: 65,
-    backgroundColor: COLORS.thirdary,
+    backgroundColor: COLORS.secondary,
   },
 });

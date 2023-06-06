@@ -1,26 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import editIcon from '../assets/edit.png';
-import removeIcon from '../assets/remove.png';
-import {
-  addUser,
-  editUser,
-  fetchUsers,
-  removeUser,
-} from '../redux/slices/users-slice';
+import {editUser, fetchUsers, removeUser} from '../redux/slices/users-slice';
 import {RootState} from '../redux/store'; // Assuming you have a separate store configuration file
-import FormModal from './FormModal';
-import UserForm from './UserForm';
 import {User} from '../redux/types';
+import FormModal from './FormModal';
+import UserCard from './UserCard';
+import UserForm from './UserForm';
 
 const UserList: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
@@ -81,25 +68,12 @@ const UserList: React.FC = () => {
 
   const renderUserItem = ({item}: {item: User}) => {
     return (
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <Text style={styles.title}>
-            {item.name.title} {item.name.first} {item.name.last}
-          </Text>
-          <TouchableOpacity onPress={() => handleEdit(item)}>
-            <Image source={editIcon} style={styles.editIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(item.email)}>
-            <Image source={removeIcon} style={styles.deleteIcon} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.email}>Email: {item.email}</Text>
-        <Image source={{uri: item.picture?.medium}} style={styles.userImage} />
-        <Text>
-          Location: {item?.location?.street?.name}, {item?.location?.city},{' '}
-          {item?.location?.country}
-        </Text>
-      </View>
+      <UserCard
+        user={item}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        onEditUser={onEditUser}
+      />
     );
   };
 
@@ -123,6 +97,7 @@ const UserList: React.FC = () => {
     <>
       <FlatList
         data={users}
+        numColumns={2}
         keyExtractor={(item: User) => item.email}
         renderItem={renderUserItem}
       />
@@ -143,32 +118,3 @@ const UserList: React.FC = () => {
 };
 
 export default UserList;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  title: {
-    color: 'red',
-    width: '80%',
-  },
-  userImage: {
-    width: 100,
-    height: 100,
-    resizeMode: 'cover',
-    borderRadius: 50,
-    marginBottom: 10,
-  },
-  row: {
-    marginTop: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    height: 62,
-  },
-  email: {marginBottom: 10},
-  editIcon: {width: 12, height: 12, marginRight: 16},
-  deleteIcon: {width: 14, height: 14},
-});

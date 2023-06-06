@@ -20,7 +20,7 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     width: '34%',
-    backgroundColor: COLORS.thirdary,
+    backgroundColor: COLORS.submit,
     paddingHorizontal: 5,
     paddingVertical: 15,
     borderRadius: 50,
