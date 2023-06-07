@@ -17,7 +17,13 @@ import {
 import {useSelector} from 'react-redux';
 
 import {RootState} from '../redux/store';
-import {User, UserLocation, UserName, UserPicture} from '../redux/types';
+import {
+  User,
+  UserId,
+  UserLocation,
+  UserName,
+  UserPicture,
+} from '../redux/types';
 import {COLORS} from '../utils/constance';
 import {isEmailUnique, validateEmail} from '../utils/validations';
 import SaveButton from './Button';
@@ -43,6 +49,7 @@ const UserForm: React.FC<UserFormProps> = ({
     last: '',
   });
   const [email, setEmail] = useState('');
+  const [id, setID] = useState<UserId>({value: 0});
   const [location, setLocation] = useState<UserLocation>({
     country: '',
     city: '',
@@ -63,8 +70,8 @@ const UserForm: React.FC<UserFormProps> = ({
       !name.last ||
       !email ||
       !location.country ||
-      !location.city ||
-      !location.street.name
+      !location.city
+      // || !location.street.name
       // || !picture
     ) {
       Alert.alert('Validation Error', 'Please fill in all fields.');
@@ -91,13 +98,12 @@ const UserForm: React.FC<UserFormProps> = ({
 
     // Create the user object
     const user: User = {
-      login: {uuid: email},
+      id,
       name,
       email,
       picture,
       location,
     };
-    console.log({user});
     // Call the onSubmit callback with the user object
     onSubmit(user);
   };
@@ -109,10 +115,8 @@ const UserForm: React.FC<UserFormProps> = ({
       },
       (response: ImagePickerResponse) => {
         if (!response.didCancel && !response.error) {
-          console.log(response);
           const selectedAsset = response?.assets[0];
           setPicture(prevState => ({...prevState, medium: selectedAsset.uri}));
-          console.log({picture});
         }
       },
     );
@@ -122,11 +126,13 @@ const UserForm: React.FC<UserFormProps> = ({
   const firstPL = userData?.name?.first || 'First Name';
   const lastPL = userData?.name?.last || 'Last Nmae';
   const emailPL = userData?.email || 'Email';
+  const idPL = userData?.id?.value || 'ID Number';
   const countryPL = userData?.location?.country || 'Country';
   const cityPL = userData?.location?.city || 'City';
   const streetPL = userData?.location?.street || 'Street Name';
   const nameTitle = 'Name:';
   const emailTitle = 'Email:';
+  const idTitle = 'ID:';
   const locationTitle = 'Location:';
 
   return (
@@ -163,6 +169,21 @@ const UserForm: React.FC<UserFormProps> = ({
             setName(prevState => ({...prevState, last: text}))
           }
         />
+        {isEditMode ? null : (
+          <>
+            <Text style={styles.sectionTitle}>{idTitle}</Text>
+            <TextInput
+              style={styles.input}
+              placeholder={idPL}
+              placeholderTextColor={COLORS.placeholder}
+              value={id}
+              onChangeText={text =>
+                setID(prevState => ({...prevState, title: text}))
+              }
+              keyboardType="number-pad"
+            />
+          </>
+        )}
         <Text style={styles.sectionTitle}>{emailTitle}</Text>
         <TextInput
           style={styles.input}

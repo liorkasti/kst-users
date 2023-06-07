@@ -30,8 +30,8 @@ Enjoy! thank you.
 ### TODOs:
 
 - [ ] Upgrade theming and handle dark mode.
-- [ ] Open a modal with confirm or cancel when delete user .
-- [ ] Add a search filter by email, name, id and location.
+- [x] Open a modal with confirm or cancel when delete user .
+- [x] Add a search filter by email, name, id and location.
 - [x] Screens data provided via an Ajax Request - https://randomuser.me/api/?results=10.
 - [x] Add ability to create, remove and edit a user.
 - [x] Validate input data.
