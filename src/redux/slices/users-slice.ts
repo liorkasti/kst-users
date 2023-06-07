@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import axios, {AxiosResponse} from 'axios';
 import {User, UsersState} from '../types';
-import {RootState} from '../store';
 import {Alert} from 'react-native';
 
 const initialState: UsersState = {
@@ -62,17 +61,17 @@ const usersSlice = createSlice({
         const searchLastName = action.payload?.name?.last.toLowerCase();
         const searchCountry = action.payload?.location?.country.toLowerCase();
         const searchCity = action.payload?.location?.city.toLowerCase();
-        const searchId = action.payload?.location?.city.toLowerCase();
+        const searchId = action.payload?.email.toLowerCase();
 
-        state.filteredData = state.data.filter(user => {
-          user.email.toLowerCase().includes(searchEmail); //||
-          // user => user.name.first.toLowerCase().includes(searchFirstName), //||
-          // user.name.last.toLowerCase().includes(searchLastName) ||
-          // user.location.country.toLowerCase().includes(searchCountry) ||
-          // user.location.city.toLowerCase().includes(searchCity), //||
-          // user.email.toLowerCase().includes(searchId),
-        });
-        console.log('temp', state.filteredData);
+        state.filteredData = state.data.filter(
+          user =>
+            user.email.toLowerCase().includes(searchEmail) ||
+            (user.name.first.toLowerCase().includes(searchFirstName) &&
+              user.name.last.toLowerCase().includes(searchLastName) &&
+              user.location.country.toLowerCase().includes(searchCountry) &&
+              user.location.city.toLowerCase().includes(searchCity) &&
+              user.email.toLowerCase().includes(searchId)),
+        );
         if (state.filteredData.length < 1) {
           Alert.alert('Sorry!', 'No result.');
         }
@@ -100,7 +99,5 @@ const usersSlice = createSlice({
 });
 
 export const {addUser, editUser, removeUser, filterUsers} = usersSlice.actions;
-// export const selectFilteredUsers = (_state: RootState) =>
-//   _state.data.filteredData;
 
 export default usersSlice.reducer;

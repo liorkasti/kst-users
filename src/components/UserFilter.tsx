@@ -46,7 +46,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     onSubmit(filteredData);
   };
 
-  const titlePL = 'Title';
+  const idPL = 'iD:';
   const firstPL = 'First Name';
   const lastPL = 'Last Nmae';
   const emailPL = 'Email';
@@ -60,7 +60,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.modalTitle}>{title}</Text>
-        <Text style={styles.sectionTitle}>{nameTitle}</Text>
+        <Text style={styles.sectionTitle}>{idPL}</Text>
         <TextInput
           style={[styles.input, styles.id]}
           placeholder={'ID'}
@@ -70,6 +70,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
             setId(prevState => ({...prevState, title: text}))
           }
         />
+        <Text style={styles.sectionTitle}>{nameTitle}</Text>
         <View style={styles.sectionRow}>
           <TextInput
             style={[styles.input, styles.firstName]}

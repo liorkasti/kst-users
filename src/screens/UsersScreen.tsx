@@ -22,7 +22,7 @@ import {COLORS} from '../utils/constance';
 
 const UsersScreen = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(true);
 
   const dispatch = useDispatch();
 
