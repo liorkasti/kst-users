@@ -32,7 +32,6 @@ const usersSlice = createSlice({
   reducers: {
     addUser: (state, action: PayloadAction<User>) => {
       const newUser = action.payload;
-      console.log({newUser});
       state.data.push(newUser);
     },
     editUser: (
@@ -41,7 +40,6 @@ const usersSlice = createSlice({
     ) => {
       const {id, user} = action.payload;
       const index = state.data.findIndex(u => u.email === id);
-      console.log({index, id, user});
       if (index !== -1) {
         state.data[index] = {
           ...state.data[index],
@@ -51,7 +49,6 @@ const usersSlice = createSlice({
     },
     removeUser: (state, action: PayloadAction<string>) => {
       const userId = action.payload;
-      console.log('userId', userId);
       state.data = state.data.filter(user => user.email !== userId);
     },
     filterUsers: (state, action: PayloadAction<string>) => {
@@ -61,23 +58,24 @@ const usersSlice = createSlice({
         const searchLastName = action.payload?.name?.last.toLowerCase();
         const searchCountry = action.payload?.location?.country.toLowerCase();
         const searchCity = action.payload?.location?.city.toLowerCase();
-        const searchId = action.payload?.email.toLowerCase();
+        // const searchId = action.payload?.id?.value;
 
         state.filteredData = state.data.filter(
           user =>
-            user.email.toLowerCase().includes(searchEmail) ||
-            (user.name.first.toLowerCase().includes(searchFirstName) &&
-              user.name.last.toLowerCase().includes(searchLastName) &&
-              user.location.country.toLowerCase().includes(searchCountry) &&
-              user.location.city.toLowerCase().includes(searchCity) &&
-              user.email.toLowerCase().includes(searchId)),
+            // user.id.value.includes(searchId) &&
+            user.email.toLowerCase().includes(searchEmail) &&
+            user.name.first.toLowerCase().includes(searchFirstName) &&
+            user.name.last.toLowerCase().includes(searchLastName) &&
+            user.location.country.toLowerCase().includes(searchCountry) &&
+            user.location.city.toLowerCase().includes(searchCity),
         );
+
         if (state.filteredData.length < 1) {
-          Alert.alert('Sorry!', 'No result.');
+          Alert.alert('Sorry!', 'No result found.');
         }
         return;
-      } catch (e) {
-        console.log('e', e);
+      } catch (error) {
+        console.log('Filter Users Error', error);
       }
     },
   },

@@ -1,15 +1,13 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {useSelector} from 'react-redux';
 
-import {RootState} from '../redux/store';
-import {FilteredData, User, UserLocation, UserName} from '../redux/types';
+import {User, UserId, UserLocation, UserName} from '../redux/types';
 import {COLORS} from '../utils/constance';
 import SaveButton from './Button';
 
 interface UserFilterProps {
   title: string;
-  userData: FilteredData | undefined;
+  userData: User | undefined;
   onSubmit: (user: User) => void;
 }
 
@@ -20,7 +18,7 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     last: '',
   });
   const [email, setEmail] = useState('');
-  const [id, setId] = useState('');
+  // const [id, setID] = useState<UserId>({value: 0});
   const [location, setLocation] = useState<UserLocation>({
     country: '',
     city: '',
@@ -30,23 +28,20 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     },
   });
 
-  const {data: users} = useSelector((state: RootState) => state.users);
-
   const handleSubmit = () => {
     // Create the user object to filter the users
     const filteredData: User = {
-      login: {uuid: email},
+      id: 0,
       name,
       email,
-      location: location,
+      location,
       picture: undefined,
     };
-    console.log({filteredData});
     // Call the onSubmit callback with the user object
     onSubmit(filteredData);
   };
 
-  const idPL = 'iD:';
+  const idPL = 'ID Number';
   const firstPL = 'First Name';
   const lastPL = 'Last Nmae';
   const emailPL = 'Email';
@@ -60,16 +55,15 @@ const UserFilter: React.FC<UserFilterProps> = ({title, onSubmit}) => {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.modalTitle}>{title}</Text>
-        <Text style={styles.sectionTitle}>{idPL}</Text>
+        {/* <Text style={styles.sectionTitle}>{idPL}</Text>
         <TextInput
           style={[styles.input, styles.id]}
           placeholder={'ID'}
           placeholderTextColor={COLORS.placeholder}
           value={id}
-          onChangeText={text =>
-            setId(prevState => ({...prevState, title: text}))
-          }
-        />
+          keyboardType="number-pad"
+          onChangeText={setID}
+        /> */}
         <Text style={styles.sectionTitle}>{nameTitle}</Text>
         <View style={styles.sectionRow}>
           <TextInput

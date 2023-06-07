@@ -28,7 +28,8 @@ const FormModal: React.FC<FormModalProps> = ({children, onClose, visible}) => (
       // disabled={true}
       activeOpacity={1}
       style={[styles.container]}
-      onPress={onClose}>
+      // onPress={onClose}
+    >
       <View style={styles.modalContent}>
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Image source={closeIcon} style={styles.image} />

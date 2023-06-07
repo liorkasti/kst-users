@@ -1,12 +1,12 @@
 export interface User {
-  login: UserId;
+  id: UserId;
   name: UserName;
   email: string;
   picture: UserPicture | undefined;
   location: UserLocation;
 }
 export interface UserId {
-  uuid: string;
+  value: number;
 }
 export interface UserName {
   title: string;

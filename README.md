@@ -1,4 +1,5 @@
 ## Description:
+
 A react-native app that screens users from randomuser.me API and can CRUD a user using Redux.
 
 ### Installation:
@@ -26,13 +27,3 @@ A react-native app that screens users from randomuser.me API and can CRUD a user
     ```
 
 Enjoy! thank you.
-
-### TODOs:
-
-- [ ] Upgrade theming and handle dark mode.
-- [ ] Open a modal with confirm or cancel when delete user .
-- [ ] Add a search filter by email, name, id and location.
-- [x] Screens data provided via an Ajax Request - https://randomuser.me/api/?results=10.
-- [x] Add ability to create, remove and edit a user.
-- [x] Validate input data.
-- [x] Error managing.
